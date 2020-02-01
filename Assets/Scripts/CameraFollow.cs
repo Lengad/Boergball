@@ -43,7 +43,7 @@ public class CameraFollow : MonoBehaviour
 
         rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
 
-        Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
+        Quaternion localRotation = Quaternion.Euler(-rotX, rotY, 0.0f);
         transform.rotation = localRotation;
     }
 
@@ -57,6 +57,6 @@ public class CameraFollow : MonoBehaviour
         Transform target = CameraFollowObject.transform;
 
         float step = CameraMoveSpeed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+        transform.position = Vector3.MoveTowards(transform.position, target.position + Vector3.up * 1.2f, step);
     }
 }
