@@ -17,6 +17,7 @@ public class MovePlayer : NetworkBehaviour
     public float gravity = 20.0f;
 
     private Vector3 moveDirection = Vector3.zero;
+    private Vector3 tmpMoveDirection;
 
     public Transform camTranform;
 
@@ -39,19 +40,20 @@ public class MovePlayer : NetworkBehaviour
             // We are grounded, so recalculate
             // move direction directly from axes
 
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-            moveDirection *= speed;
+            tmpMoveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+            tmpMoveDirection *= speed;
 
             if (Input.GetButton("Jump"))
             {
-                moveDirection.y = jumpSpeed;
+                tmpMoveDirection.y = jumpSpeed;
             }
         }
 
         // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
         // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied
         // as an acceleration (ms^-2)
-        moveDirection.y -= gravity * Time.deltaTime;
+        tmpMoveDirection.y -= gravity * Time.deltaTime;
+        moveDirection = transform.TransformDirection(tmpMoveDirection);
         // Move the controller
         characterController.Move(moveDirection * Time.deltaTime);
         // Player rotation
