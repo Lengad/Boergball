@@ -368,6 +368,67 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 786728e9b2b564f4691b5c20cd17cb2e, type: 3}
+--- !u!1 &1017996535 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 795848416124811956, guid: 96b8187351d4ed54bb230af5123aa9a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1618028889}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1017996536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1017996535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d6c522af31447398568cc65334232b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 1
+  m_SyncSpin: 1
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 2
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &1017996537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1017996535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 150
+    i1: 184
+    i2: 24
+    i3: 115
+    i4: 81
+    i5: 212
+    i6: 237
+    i7: 84
+    i8: 187
+    i9: 35
+    i10: 10
+    i11: 245
+    i12: 18
+    i13: 58
+    i14: 169
+    i15: 167
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!1 &1355777033
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +530,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4828233439411519229, guid: 96b8187351d4ed54bb230af5123aa9a7,
+        type: 3}
+      propertyPath: m_TransformSyncMode
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 795848416124811956, guid: 96b8187351d4ed54bb230af5123aa9a7,
         type: 3}
       propertyPath: m_Name

@@ -14,19 +14,19 @@ namespace Assets.Scripts
         private Rigidbody rigidbodyOfObject;
 
         /// <summary>The offset vector from the object's position to hit point, in local space</summary>
-        private Vector3 hitOffsetLocal;
+        [SyncVar] private Vector3 hitOffsetLocal;
 
         /// <summary>The distance we are holding the object at</summary>
-        private float currentPickUpDistance;
+        [SyncVar] private float currentPickUpDistance;
 
         /// <summary>The interpolation state when first grabbed</summary>
         private RigidbodyInterpolation initialInterpolationSetting;
 
         /// <summary>The difference between player & object rotation, updated when picked up or when rotated by the player</summary>
-        private Vector3 rotationDifferenceEuler;
+        [SyncVar] private Vector3 rotationDifferenceEuler;
 
         /// <summary>Tracks player input to rotate current object. Used and reset every fixedupdate call</summary>
-        private Vector2 rotationInput;
+        [SyncVar] private Vector2 rotationInput;
 
         private CameraFollow cameraFollow;
 
@@ -83,38 +83,53 @@ namespace Assets.Scripts
 
             if (rigidbodyOfObject)
             {
-                // We are holding an object, time to rotate & move it
-                
-                // Rotate the object to remain consistent with any changes in player's rotation
-                rigidbodyOfObject.MoveRotation(Quaternion.Euler(rotationDifferenceEuler + transform.rotation.eulerAngles));
-
                 // Get the destination point for the point on the object we grabbed
                 Vector3 holdPoint = transform.position + cameraFollow.transform.forward * currentPickUpDistance;
                 Debug.DrawLine(transform.position, holdPoint, Color.blue, Time.fixedDeltaTime);
 
-                // Apply any intentional rotation input made by the player & clear tracked input
-                rigidbodyOfObject.transform.RotateAround(holdPoint, transform.right, rotationInput.y);
-                rigidbodyOfObject.transform.RotateAround(holdPoint, transform.up, -rotationInput.x);
-
-                // Remove all torque, reset rotation input & store the rotation difference for next FixedUpdate call
-                rigidbodyOfObject.angularVelocity = Vector3.zero;
-                rotationInput = Vector2.zero;
-                rotationDifferenceEuler = rigidbodyOfObject.transform.rotation.eulerAngles - transform.rotation.eulerAngles;
-
-                // Calculate object's center position based on the offset we stored
-                // NOTE: We need to convert the local-space point back to world coordinates
-                Vector3 centerDestination = holdPoint - rigidbodyOfObject.transform.TransformVector(hitOffsetLocal);
-
-                // Find vector from current position to destination
-                Vector3 toDestination = centerDestination - rigidbodyOfObject.transform.position;
-
-                // Calculate force
-                Vector3 force = toDestination / Time.fixedDeltaTime;
-
-                // Remove any existing velocity and add force to move to final position
-                rigidbodyOfObject.velocity = Vector3.zero;
-                rigidbodyOfObject.AddForce(force, ForceMode.VelocityChange);
+                // We are holding an object, time to rotate & move it
+                CmdMoveAndRotate(holdPoint, rigidbodyOfObject.gameObject.GetComponent<NetworkIdentity>().netId);
             }
+        }
+
+        [Command]
+        private void CmdMoveAndRotate(Vector3 holdPoint, NetworkInstanceId netId)
+        {
+            RpcMoveAndRotate(holdPoint, netId);
+        }
+
+
+        [ClientRpc]
+        void RpcMoveAndRotate(Vector3 holdPoint, NetworkInstanceId netid) //It gets passed the same arguments.
+        {
+            GameObject movedObject = ClientScene.FindLocalObject(netid); //This will have each client get a reference to the thing we want to move by searching for its netID.
+            Rigidbody rb = movedObject.GetComponent<Rigidbody>(); //Now we can apply the force!
+
+            // Rotate the object to remain consistent with any changes in player's rotation
+            rb.MoveRotation(Quaternion.Euler(rotationDifferenceEuler + transform.rotation.eulerAngles));
+
+            // Apply any intentional rotation input made by the player & clear tracked input
+            rb.transform.RotateAround(holdPoint, transform.right, rotationInput.y);
+            rb.transform.RotateAround(holdPoint, transform.up, -rotationInput.x);
+
+            // Remove all torque, reset rotation input & store the rotation difference for next FixedUpdate call
+            rb.angularVelocity = Vector3.zero;
+            rotationInput = Vector2.zero;
+            rotationDifferenceEuler = rb.transform.rotation.eulerAngles - transform.rotation.eulerAngles;
+
+            // Calculate object's center position based on the offset we stored
+            // NOTE: We need to convert the local-space point back to world coordinates
+            Vector3 centerDestination = holdPoint - rb.transform.TransformVector(hitOffsetLocal);
+
+            // Find vector from current position to destination
+            Vector3 toDestination = centerDestination - rb.transform.position;
+
+            // Calculate force
+            Vector3 force = toDestination / Time.fixedDeltaTime;
+
+            // Remove any existing velocity and add force to move to final position
+            rb.velocity = Vector3.zero;
+            rb.AddForce(force, ForceMode.VelocityChange);
         }
 
         private void PickUp()
