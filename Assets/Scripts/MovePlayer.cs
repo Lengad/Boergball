@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 // This script moves the character controller forward
 // and sideways based on the arrow keys.
@@ -7,7 +8,7 @@ using System.Collections;
 // Make sure to attach a character controller to the same game object.
 // It is recommended that you make only one call to Move or SimpleMove per frame.
 
-public class MovePlayer : MonoBehaviour
+public class MovePlayer : NetworkBehaviour
 {
     CharacterController characterController;
 
@@ -30,6 +31,9 @@ public class MovePlayer : MonoBehaviour
 
     void Update()
     {
+        if (!isLocalPlayer)
+            return;
+
         if (characterController.isGrounded)
         {
             // We are grounded, so recalculate
@@ -48,12 +52,9 @@ public class MovePlayer : MonoBehaviour
         // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied
         // as an acceleration (ms^-2)
         moveDirection.y -= gravity * Time.deltaTime;
-
         // Move the controller
         characterController.Move(moveDirection * Time.deltaTime);
-
         // Player rotation
         transform.rotation = camTranform.rotation;
-
     }
 }
