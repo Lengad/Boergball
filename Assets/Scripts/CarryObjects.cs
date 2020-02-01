@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UIElements;
 using Input = UnityEngine.Input;
 
@@ -6,7 +7,7 @@ namespace Assets.Scripts
 {
 
     // Credits to u/nandos13 for his script https://www.reddit.com/r/Unity3D/comments/7nul40/simple_gravity_gun_script_well_commented/
-    public class CarryObjects : MonoBehaviour
+    public class CarryObjects : NetworkBehaviour
     {
         private const float MaxPickupDistance = 2f;
         private RaycastHit hit;
@@ -30,6 +31,9 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
+            if (!isLocalPlayer)
+                return;
+
             if (!Input.GetMouseButton((int)MouseButton.LeftMouse))
             {
                 // We are not holding the mouse button. Release the object and return before checking for a new one
@@ -67,6 +71,9 @@ namespace Assets.Scripts
 
         void FixedUpdate()
         {
+            if (!isLocalPlayer)
+                return;
+
             if (rigidbodyOfObject)
             {
                 // We are holding an object, time to rotate & move it
