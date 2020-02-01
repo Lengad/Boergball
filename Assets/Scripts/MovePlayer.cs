@@ -21,6 +21,7 @@ public class MovePlayer : NetworkBehaviour
 
     [SerializeField]
     private float rotY;
+    private CameraFollow cameraFollow;
 
     void Start()
     {
@@ -30,7 +31,7 @@ public class MovePlayer : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
-        var cameraFollow = Camera.main.GetComponentInParent<CameraFollow>();
+        cameraFollow = Camera.main.GetComponentInParent<CameraFollow>();
         cameraFollow.target = transform;
     }
 
@@ -61,6 +62,7 @@ public class MovePlayer : NetworkBehaviour
         // Move the controller
         characterController.Move(moveDirection * Time.deltaTime);
         // Player rotation
-        transform.rotation = Camera.main.gameObject.transform.rotation;
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, cameraFollow.transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+           
     }
 }
