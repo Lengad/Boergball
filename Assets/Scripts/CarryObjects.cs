@@ -28,6 +28,13 @@ namespace Assets.Scripts
         /// <summary>Tracks player input to rotate current object. Used and reset every fixedupdate call</summary>
         private Vector2 rotationInput;
 
+        private CameraFollow cameraFollow;
+
+        void Start()
+        {
+            cameraFollow = Camera.main.GetComponentInParent<CameraFollow>();
+        }
+
         // Update is called once per frame
         void Update()
         {
@@ -47,8 +54,8 @@ namespace Assets.Scripts
             {
                 // We are not holding an object, look for one to pick up
 
-                Debug.DrawLine(transform.position, transform.position + transform.forward * MaxPickupDistance, Color.yellow);
-                if (Physics.Raycast(transform.position, transform.forward, out hit, MaxPickupDistance))
+                Debug.DrawLine(transform.position, transform.position + cameraFollow.transform.forward * MaxPickupDistance, Color.yellow);
+                if (Physics.Raycast(transform.position, cameraFollow.transform.forward, out hit, MaxPickupDistance))
                 {
                     // Don't pick up kinematic rigidbodies (they can't move)
                     if (hit.rigidbody != null && !hit.rigidbody.isKinematic)
@@ -82,11 +89,10 @@ namespace Assets.Scripts
                 rigidbodyOfObject.MoveRotation(Quaternion.Euler(rotationDifferenceEuler + transform.rotation.eulerAngles));
 
                 // Get the destination point for the point on the object we grabbed
-                Vector3 holdPoint = transform.position + transform.forward * currentPickUpDistance;
+                Vector3 holdPoint = transform.position + cameraFollow.transform.forward * currentPickUpDistance;
                 Debug.DrawLine(transform.position, holdPoint, Color.blue, Time.fixedDeltaTime);
 
                 // Apply any intentional rotation input made by the player & clear tracked input
-                Vector3 currentEuler = rigidbodyOfObject.rotation.eulerAngles;
                 rigidbodyOfObject.transform.RotateAround(holdPoint, transform.right, rotationInput.y);
                 rigidbodyOfObject.transform.RotateAround(holdPoint, transform.up, -rotationInput.x);
 
