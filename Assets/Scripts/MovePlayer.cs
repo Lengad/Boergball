@@ -19,15 +19,19 @@ public class MovePlayer : NetworkBehaviour
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 tmpMoveDirection;
 
-    public Transform camTranform;
-
     [SerializeField]
     private float rotY;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        var cameraFollow = Camera.main.GetComponentInParent<CameraFollow>();
+        cameraFollow.target = transform;
     }
 
     void Update()
@@ -57,6 +61,6 @@ public class MovePlayer : NetworkBehaviour
         // Move the controller
         characterController.Move(moveDirection * Time.deltaTime);
         // Player rotation
-        transform.rotation = camTranform.rotation;
+        transform.rotation = Camera.main.gameObject.transform.rotation;
     }
 }

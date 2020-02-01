@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.PlayerLoop;
 
 namespace Assets.Scripts
 {
     [RequireComponent(typeof(MusicController))]
     public class GameManager : MonoBehaviour
     {
+        private bool isCursorLocked;
         public static GameManager Instance { get; private set; }
         public MusicController MusicController { get; private set; }
         public GameStats GameStats { get; private set; }
@@ -14,6 +17,23 @@ namespace Assets.Scripts
             Instance = this;
             MusicController = GetComponent<MusicController>();
             GameStats = GetComponent<GameStats>();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (this.isCursorLocked)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = false;
+                }
+                else
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = true;
+                }
+            }
         }
     }
 }

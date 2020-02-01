@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField]
     private float CameraMoveSpeed = 120.0f;
-    [SerializeField]
-    private GameObject CameraFollowObject;
     [SerializeField]
     private float clampAngle = 80.0f;
     [SerializeField]
@@ -22,17 +19,17 @@ public class CameraFollow : MonoBehaviour
     private float rotY = 0.0f;
     private float rotX = 0.0f;
 
+    public Transform target;
+
     void Start()
     {
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
         rotX = rot.x;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     private void Update()
-    {      
+    {
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
         finalInputX =  mouseX;
@@ -49,13 +46,13 @@ public class CameraFollow : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (target == null)
+            return;
         CameraUpdater();
     }
 
     private void CameraUpdater()
     {
-        Transform target = CameraFollowObject.transform;
-
         float step = CameraMoveSpeed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, target.position + Vector3.up * 1.2f, step);
     }
