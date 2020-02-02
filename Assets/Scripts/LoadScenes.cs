@@ -5,18 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class LoadScenes : MonoBehaviour
 {
-    public void LoadHostMenu()
-    {
-        SceneManager.LoadScene("HostMenu");
-    }
 
-    public void LoadJoinMenu()
+    public void LoadMainScene()
     {
-        SceneManager.LoadScene("JoinMenu");
+        SceneManager.LoadScene("MainScene");
     }
 
     public void LoadGameOver()
     {
         SceneManager.LoadScene("GameOver");
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
