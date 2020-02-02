@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Assets.Scripts
 {
-    public class TeamSelectionTrigger : MonoBehaviour
+    public class TeamSelectionTrigger : NetworkBehaviour
     {
         [SerializeField]
         private Team team = Team.Red;
@@ -11,7 +12,7 @@ namespace Assets.Scripts
         private string teamTag = string.Empty;
 
         private GameObject[] spawnPoints;
-        private int spawnIndex = 0;
+        [SyncVar] private int spawnIndex = 0;
 
         void Start()
         {
@@ -31,12 +32,25 @@ namespace Assets.Scripts
             if (player.CompareTag("Player"))
             {
                 TeamPlayer.CreateComponent(player, team);
-
-                if (spawnIndex >= spawnPoints.Length - 1)
-                    spawnIndex = 0;
-
-                player.transform.position = spawnPoints[spawnIndex].transform.position;
+                CmdTeleportToTeamCastle(player.GetComponent<NetworkIdentity>().netId);
             }
+        }
+
+        [Command]
+        void CmdTeleportToTeamCastle(NetworkInstanceId netId)
+        {
+            if (spawnIndex >= spawnPoints.Length - 1)
+                spawnIndex = 0;
+
+            RpcTeleportToTeamCastle(netId);
+            spawnIndex++;
+        }
+
+        [ClientRpc]
+        void RpcTeleportToTeamCastle(NetworkInstanceId netId)
+        {
+            GameObject player = ClientScene.FindLocalObject(netId);
+            player.transform.position = spawnPoints[spawnIndex].transform.position;
         }
     }
 }
