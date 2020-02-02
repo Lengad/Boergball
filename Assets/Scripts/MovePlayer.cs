@@ -23,9 +23,12 @@ public class MovePlayer : NetworkBehaviour
     private float rotY;
     private CameraFollow cameraFollow;
 
+    AudioSource audioData;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        audioData = GetComponent<AudioSource>();
     }
 
     public override void OnStartLocalPlayer()
@@ -51,6 +54,7 @@ public class MovePlayer : NetworkBehaviour
             if (Input.GetButton("Jump"))
             {
                 tmpMoveDirection.y = jumpSpeed;
+                audioData.Play(0);
             }
         }
 
