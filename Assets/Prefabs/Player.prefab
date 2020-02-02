@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 93198985972003546}
   - component: {fileID: 410127631661232075}
   - component: {fileID: 5592139960805354100}
+  - component: {fileID: 8607496597558735591}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -37,7 +38,6 @@ Transform:
   - {fileID: 7311612000709462934}
   - {fileID: 7311612001065886767}
   - {fileID: 7311612000120850004}
-  - {fileID: 7311611999806477369}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d53a00b9408e236409dcef69d2bc5fe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  throwForce: 80
 --- !u!114 &93198985972003546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,6 +255,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8607496597558735591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7311612000097818385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f23741a893b874d81804b3bdd3aae1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7311612000120850005
 GameObject:
   m_ObjectHideFlags: 0
