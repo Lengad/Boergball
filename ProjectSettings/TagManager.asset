@@ -8,6 +8,7 @@ TagManager:
   - Red_Spawn
   - King
   - Lava
+  - Ball
   layers:
   - Default
   - TransparentFX

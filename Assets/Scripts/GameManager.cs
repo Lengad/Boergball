@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Assets.Scripts
 {
     [RequireComponent(typeof(MusicController))]
+    [RequireComponent(typeof(GameStats))]
     public class GameManager : MonoBehaviour
     {
         private bool isCursorLocked;

@@ -20,14 +20,22 @@ namespace Assets.Scripts
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            GameObject player = other.gameObject;
+
+            // Ugly hack
+            Transform parent = other.transform.parent;
+            if (parent != null)
+                player = parent.gameObject;
+
+
+            if (player.CompareTag("Player"))
             {
-                TeamPlayer.CreateComponent(other.gameObject, team);
+                TeamPlayer.CreateComponent(player, team);
 
                 if (spawnIndex >= spawnPoints.Length - 1)
                     spawnIndex = 0;
 
-                other.transform.position = spawnPoints[spawnIndex].transform.position;
+                player.transform.position = spawnPoints[spawnIndex].transform.position;
             }
         }
     }
