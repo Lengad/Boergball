@@ -230,7 +230,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4855929251473902519}
-  - component: {fileID: 4603940996280865004}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Ball
