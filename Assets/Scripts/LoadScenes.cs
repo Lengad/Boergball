@@ -8,7 +8,7 @@ public class LoadScenes : MonoBehaviour
 
     public void LoadMainScene()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("Philipp");
     }
 
     public void LoadGameOver()
