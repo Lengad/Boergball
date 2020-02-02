@@ -13,6 +13,8 @@ namespace Assets.Scripts
         private RaycastHit hit;
         private Rigidbody rigidbodyOfObject;
 
+        [SerializeField] private float throwForce = 80f;
+
         /// <summary>The offset vector from the object's position to hit point, in local space</summary>
         [SyncVar] private Vector3 hitOffsetLocal;
 
@@ -28,6 +30,7 @@ namespace Assets.Scripts
         /// <summary>Tracks player input to rotate current object. Used and reset every fixedupdate call</summary>
         [SyncVar] private Vector2 rotationInput;
 
+        [SyncVar] private bool isThrowing;
         private CameraFollow cameraFollow;
 
         void Start()
@@ -73,6 +76,8 @@ namespace Assets.Scripts
                     rotationInput += new Vector2(1, rotationInput.y);
                 if (Input.GetKey(KeyCode.E))
                     rotationInput -= new Vector2(1, rotationInput.y);
+                if (Input.GetMouseButtonDown((int) MouseButton.RightMouse))
+                    isThrowing = true;
             }
         }
 
@@ -88,6 +93,7 @@ namespace Assets.Scripts
                 Debug.DrawLine(transform.position, holdPoint, Color.blue, Time.fixedDeltaTime);
 
                 // We are holding an object, time to rotate & move it
+                // Call the method on the server
                 CmdMoveAndRotate(holdPoint, rigidbodyOfObject.gameObject.GetComponent<NetworkIdentity>().netId);
             }
         }
@@ -95,6 +101,7 @@ namespace Assets.Scripts
         [Command]
         private void CmdMoveAndRotate(Vector3 holdPoint, NetworkInstanceId netId)
         {
+            // Execute it on all Clients
             RpcMoveAndRotate(holdPoint, netId);
         }
 
@@ -122,14 +129,27 @@ namespace Assets.Scripts
             Vector3 centerDestination = holdPoint - rb.transform.TransformVector(hitOffsetLocal);
 
             // Find vector from current position to destination
-            Vector3 toDestination = centerDestination - rb.transform.position;
+            // Vector3 toDestination = centerDestination - rb.transform.position;
 
             // Calculate force
-            Vector3 force = toDestination / Time.fixedDeltaTime;
+            // Vector3 force = toDestination / Time.fixedDeltaTime;
 
             // Remove any existing velocity and add force to move to final position
             rb.velocity = Vector3.zero;
-            rb.AddForce(force, ForceMode.VelocityChange);
+
+            rb.MovePosition(centerDestination); // TODO: Fixes the problems of AddForce, but objects cannot be tossed anymore
+
+            // TODO: Somehow the force is suddenly getting extremely huge when a client picks up an object
+            //force = Vector3.ClampMagnitude(force, 100f);
+            //rb.AddForce(force, ForceMode.VelocityChange);
+            //print("Force = "+force);
+
+            if (isThrowing)
+            {
+                rb.AddForce(cameraFollow.transform.forward * throwForce, ForceMode.Impulse);
+                isThrowing = false;
+                Drop();
+            }
         }
 
         private void PickUp()
