@@ -7,9 +7,28 @@ namespace Assets.Scripts
         [SerializeField]
         private Team team = Team.Red;
 
-        void OnTriggerEnter(Collider collider)
+        [SerializeField]
+        private string teamTag = string.Empty;
+
+        private GameObject[] spawnPoints;
+        private int spawnIndex = 0;
+
+        void Start()
         {
-            TeamPlayer.CreateComponent(collider.gameObject, team);
+            spawnPoints = GameObject.FindGameObjectsWithTag(teamTag);
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Player"))
+            {
+                TeamPlayer.CreateComponent(other.gameObject, team);
+
+                if (spawnIndex >= spawnPoints.Length - 1)
+                    spawnIndex = 0;
+
+                other.transform.position = spawnPoints[spawnIndex].transform.position;
+            }
         }
     }
 }
