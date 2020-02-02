@@ -29,7 +29,7 @@ public class BallSpawn : MonoBehaviour
         if (collision.transform.CompareTag("Lava"))
         {
             // Pick one of the two sides randomly
-            int r = Random.Range(0, 1);
+            int r = Random.Range(0, 2);
             transform.position = new Vector3(Random.Range(-maxSpawnOffset, maxSpawnOffset) + ballSpawnPoints[r].transform.position.x, ballSpawnPoints[r].transform.position.y, Random.Range(-maxSpawnOffset, maxSpawnOffset) + ballSpawnPoints[r].transform.position.z);
             rb.velocity = Vector3.zero;
         }
