@@ -9,7 +9,7 @@ namespace Assets.Scripts
     // Credits to u/nandos13 for his script https://www.reddit.com/r/Unity3D/comments/7nul40/simple_gravity_gun_script_well_commented/
     public class CarryObjects : NetworkBehaviour
     {
-        private const float MaxPickupDistance = 2f;
+        private const float MaxPickupDistance = 5f;
         private RaycastHit hit;
         private Rigidbody rigidbodyOfObject;
 
