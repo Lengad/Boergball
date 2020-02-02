@@ -11,6 +11,8 @@ namespace Assets.Scripts
         [SerializeField]
         private string teamTag = string.Empty;
 
+        [SerializeField] private Material teamColor;
+
         private GameObject[] spawnPoints;
         [SyncVar] private int spawnIndex = 0;
 
@@ -32,6 +34,11 @@ namespace Assets.Scripts
             if (player.CompareTag("Player"))
             {
                 TeamPlayer.CreateComponent(player, team);
+                var renderers = player.GetComponentsInChildren<Renderer>();
+                foreach (Renderer r in renderers)
+                {
+                    r.material = teamColor;
+                }
                 CmdTeleportToTeamCastle(player.GetComponent<NetworkIdentity>().netId);
             }
         }
