@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.PlayerLoop;
 
 namespace Assets.Scripts
 {

@@ -4,16 +4,7 @@ namespace Assets.Scripts
 {
     public class GameStats : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+        public int RedTeamPoints = 0;
+        public int BlueTeamPoints = 0;
     }
 }
