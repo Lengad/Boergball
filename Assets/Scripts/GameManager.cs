@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -31,6 +32,21 @@ namespace Assets.Scripts
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = true;
                 }
+            }
+        }
+
+        public void KingHit(Team loserTeam)
+        {
+            switch (loserTeam)
+            {
+                case Team.Red:
+                    GameStats.BlueTeamPoints++;
+                    break;
+                case Team.Blue:
+                    GameStats.RedTeamPoints++;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(loserTeam), loserTeam, null);
             }
         }
     }
