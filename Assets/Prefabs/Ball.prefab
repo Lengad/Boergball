@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5712470829319557797}
   - component: {fileID: 176314740297040748}
   - component: {fileID: 108650438219227344}
+  - component: {fileID: 7398649335211296563}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -88,12 +89,28 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4752570510137934634}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: ae3f9811a211f6a4ca9f8b04b440b24d, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7398649335211296563
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4752570510137934634}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &5626387661892359659
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +135,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5626387661892359659}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.740407, y: 0.26973152, z: -4.0335197}
+  m_LocalPosition: {x: -0.64, y: 0, z: -1.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4338833749777718284}
@@ -199,7 +216,7 @@ TrailRenderer:
   m_Time: 5
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.6
     widthCurve:
       serializedVersion: 2
       m_Curve:
