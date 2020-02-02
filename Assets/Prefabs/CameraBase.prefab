@@ -99,7 +99,7 @@ MonoBehaviour:
   minDistance: 1
   maxDistance: 4
   smooth: 10
-  distance: 0
+  distance: 20
 --- !u!1 &8501926926678226626
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,10 +145,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraMoveSpeed: 120
-  CameraFollowObject: {fileID: 0}
   clampAngle: 80
   inputSensitivity: 150
   mouseX: 0
   mouseY: 0
   finalInputX: 0
   finalInputZ: 0
+  target: {fileID: 0}
